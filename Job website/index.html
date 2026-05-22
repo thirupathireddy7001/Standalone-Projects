@@ -187,24 +187,6 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
       </div>
 
       <div class="sidegrid">
-        <div class="card">
-          <h3>Featured Openings</h3>
-          <div class="flist">
-            <div class="fitem">
-              <div class="ftop"><div><strong>Graduate Software Engineer</strong><span>Infosys • Bangalore</span></div><span class="pill p1">Off-Campus</span></div>
-              <p>Fresh graduate role with coding-focused onboarding and mentorship.</p>
-            </div>
-            <div class="fitem">
-              <div class="ftop"><div><strong>Customer Support Associate</strong><span>Tech Mahindra • Hyderabad</span></div><span class="pill p2">Walk-In</span></div>
-              <p>Immediate interview-driven hiring with faster joining.</p>
-            </div>
-            <div class="fitem">
-              <div class="ftop"><div><strong>Cloud Operations Analyst</strong><span>Wipro • Pune</span></div><span class="pill p3">IT Job</span></div>
-              <p>Cloud and infrastructure monitoring for early-career candidates.</p>
-            </div>
-          </div>
-        </div>
-
         <div class="card" id="categories">
           <h3>Top Categories</h3>
           <div class="flist">
@@ -252,15 +234,6 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
       </div>
 
       <div class="info">
-        <div class="infocard">
-          <h3>Why this UI is better</h3>
-          <div class="ilist">
-            <div class="item"><span class="dot"></span><div><strong>Dashboard-style layout</strong><span>Sidebar + content panels inspired by your references.</span></div></div>
-            <div class="item"><span class="dot"></span><div><strong>Premium visual hierarchy</strong><span>Large hero, soft glass cards, and cleaner spacing.</span></div></div>
-            <div class="item"><span class="dot"></span><div><strong>Better color composition</strong><span>Balanced purple, blue, and green accents with a light luxury feel.</span></div></div>
-          </div>
-        </div>
-
         <div class="infocard">
           <h3>Quick Access</h3>
           <div class="ilist">
@@ -326,16 +299,152 @@ filterButtons.forEach(button=>{
   });
 });
 
-fetch('jobs.json')
-  .then(response=>response.json())
-  .then(data=>{
-    allJobs=data;
-    renderJobs(activeFilter);
-  })
-  .catch(error=>{
-    console.error('Failed to load jobs:', error);
-    jobsGrid.innerHTML='<p style="grid-column:1/-1;color:#7480a3;font-weight:700">Unable to load jobs data. Please check jobs.json.</p>';
-  });
+// Embedded jobs data to avoid CORS issues when opening HTML directly
+allJobs = [
+  {
+    "id": 1,
+    "category": "off-campus",
+    "categoryLabel": "Off-Campus",
+    "title": "Graduate Software Engineer",
+    "company": "IBM",
+    "badge": "IN",
+    "location": "Bangalore / Hybrid",
+    "eligibility": "B.E./B.Tech 2024/2025, 60%+",
+    "description": "Graduate engineering role focused on Java, Python, problem-solving, and enterprise delivery with training and mentorship.",
+    "note": "Entry-level • Full-time",
+    "applyUrl": "https://www.infosys.com/careers/apply.html",
+    "active": true
+  },
+  {
+    "id": 2,
+    "category": "off-campus",
+    "categoryLabel": "Off-Campus",
+    "title": "Analyst Trainee",
+    "company": "Deloitte",
+    "badge": "DE",
+    "location": "Hyderabad",
+    "eligibility": "Any Degree, 2023–2025 grads",
+    "description": "Reporting and analysis role for graduates with strong aptitude in dashboards, Excel, and communication.",
+    "note": "Freshers welcome",
+    "applyUrl": "https://www2.deloitte.com/us/en/careers/search-jobs.html",
+    "active": true
+  },
+  {
+    "id": 3,
+    "category": "off-campus",
+    "categoryLabel": "Off-Campus",
+    "title": "Associate QA Engineer",
+    "company": "Cognizant",
+    "badge": "CG",
+    "location": "Chennai",
+    "eligibility": "B.Sc/BCA/B.Tech, 0–1 years",
+    "description": "Early-career quality engineering role covering testing cycles, API validation, defect logging, and QA reporting.",
+    "note": "Testing track",
+    "applyUrl": "https://careers.cognizant.com/global/en",
+    "active": true
+  },
+  {
+    "id": 4,
+    "category": "walk-in",
+    "categoryLabel": "Walk-In Drive",
+    "title": "Customer Support Associate",
+    "company": "Tech Mahindra",
+    "badge": "TM",
+    "location": "Hyderabad",
+    "eligibility": "Any Graduate, strong English",
+    "description": "Immediate walk-in opening for voice and blended support operations with rotational shifts and issue resolution.",
+    "note": "Walk-in this week",
+    "applyUrl": "https://careers.techmahindra.com/",
+    "active": true
+  },
+  {
+    "id": 5,
+    "category": "walk-in",
+    "categoryLabel": "Walk-In Drive",
+    "title": "HR Operations Executive",
+    "company": "Genpact",
+    "badge": "GP",
+    "location": "Noida",
+    "eligibility": "BBA/MBA/Any Graduate",
+    "description": "Coordinate onboarding processes, maintain records, and support HR documentation for fast-paced operations teams.",
+    "note": "Operations role",
+    "applyUrl": "https://www.genpact.com/careers/job-search",
+    "active": true
+  },
+  {
+    "id": 6,
+    "category": "walk-in",
+    "categoryLabel": "Walk-In Drive",
+    "title": "Desktop Support Technician",
+    "company": "HCLTech",
+    "badge": "HC",
+    "location": "Lucknow",
+    "eligibility": "Diploma / Degree, 0–2 years",
+    "description": "Support desktop devices, software setup, and ticket resolution with practical troubleshooting and hardware basics.",
+    "note": "Face-to-face interviews",
+    "applyUrl": "https://www.hcltech.com/careers",
+    "active": true
+  },
+  {
+    "id": 7,
+    "category": "it-jobs",
+    "categoryLabel": "IT Job",
+    "title": "Cloud Operations Analyst",
+    "company": "Wipro",
+    "badge": "WP",
+    "location": "Pune",
+    "eligibility": "B.Tech/BCA/MCA, Linux basics",
+    "description": "Monitor live systems, respond to alerts, and support cloud platform operations with Linux and monitoring fundamentals.",
+    "note": "Infra & cloud",
+    "applyUrl": "https://careers.wipro.com/careers-home/",
+    "active": true
+  },
+  {
+    "id": 8,
+    "category": "it-jobs",
+    "categoryLabel": "IT Job",
+    "title": "Frontend Developer",
+    "company": "Zoho",
+    "badge": "ZH",
+    "location": "Chennai",
+    "eligibility": "0–2 years, HTML/CSS/JS",
+    "description": "Build responsive interfaces, improve user experiences, and collaborate with design teams on polished web products.",
+    "note": "UI engineering",
+    "applyUrl": "https://www.zoho.com/careers/job-openings.html",
+    "active": true
+  },
+  {
+    "id": 9,
+    "category": "it-jobs",
+    "categoryLabel": "IT Job",
+    "title": "Cybersecurity Associate",
+    "company": "Accenture",
+    "badge": "AC",
+    "location": "Gurugram",
+    "eligibility": "B.Tech/B.Sc, security basics",
+    "description": "Assist security teams with alert review, logs, vulnerability tracking, and incident support under guided operations.",
+    "note": "Security operations",
+    "applyUrl": "https://www.accenture.com/in-en/careers/jobsearch",
+    "active": true
+  },
+  {
+    "id": 10,
+    "category": "it-jobs",
+    "categoryLabel": "IT Job",
+    "title": "Data Engineer - Entry Level",
+    "company": "TCS",
+    "badge": "TC",
+    "location": "Mumbai / Hybrid",
+    "eligibility": "2024/2025 grads, SQL/Python",
+    "description": "Help build data pipelines, validate ETL tasks, and prepare clean datasets for analytics and reporting teams.",
+    "note": "Data & analytics",
+    "applyUrl": "https://www.tcs.com/careers",
+    "active": true
+  }
+];
+
+// Render jobs immediatelytk
+renderJobs(activeFilter);
 </script>
 </body>
 </html>
