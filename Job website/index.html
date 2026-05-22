@@ -49,14 +49,14 @@ box-shadow:var(--shadow2);border-radius:24px;padding:16px 20px;margin-bottom:22p
 .btn.primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 16px 30px rgba(109,77,247,.22)}
 .btn.soft{background:rgba(109,77,247,.08);color:#4c30dc;border:1px solid rgba(109,77,247,.12)}
 .btn.wa{background:linear-gradient(135deg,var(--green),#99ffc7);color:#052414;box-shadow:0 16px 30px rgba(32,217,138,.24)}
-.hero{display:grid;grid-template-columns:1.16fr .84fr;gap:22px;margin-bottom:22px}
+.hero{display:grid;grid-template-columns:.84fr 1.16fr;gap:22px;margin-bottom:22px}
 .hero-main{position:relative;overflow:hidden;min-height:360px;padding:34px;border-radius:32px;color:#fff;
 background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shadow:var(--shadow)}
 .hero-main:before{content:"";position:absolute;top:-55px;right:-25px;width:220px;height:220px;border-radius:38px;background:rgba(255,255,255,.12);transform:rotate(24deg)}
 .hero-main:after{content:"";position:absolute;left:-40px;bottom:-80px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
 .hero-wrap{position:relative;z-index:1;max-width:620px}
 .eyebrow{display:inline-flex;padding:.55rem .9rem;border-radius:999px;background:rgba(255,255,255,.15);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;font-weight:900}
-.hero h2{margin:1rem 0 .9rem;font-size:clamp(2.4rem,5vw,4rem);line-height:.96;letter-spacing:-.05em;max-width:11ch}
+.hero h2{margin:1rem 0 .9rem;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.1;letter-spacing:-.03em;max-width:20ch}
 .hero p{margin:0 0 1.5rem;color:rgba(255,255,255,.9);max-width:57ch}
 .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.5rem}
 .hero-actions .primary{background:#fff;color:#422ac7}
@@ -169,40 +169,31 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
     </header>
 
     <section class="hero">
+      <div class="sidegrid">
+        <div class="card" id="categories">
+          <h3>Top Categories</h3>
+          <div class="flist">
+            <a class="fitem" href="#jobs" data-category="off-campus" style="cursor: pointer;"><div class="ftop"><div><strong>Off-Campus Drives</strong><span>Graduate and fresher roles</span></div><span class="pill p1">3 roles</span></div></a>
+            <a class="fitem" href="#jobs" data-category="walk-in" style="cursor: pointer;"><div class="ftop"><div><strong>Walk-In Drives</strong><span>Interview-ready openings</span></div><span class="pill p2">3 roles</span></div></a>
+            <a class="fitem" href="#jobs" data-category="it-jobs" style="cursor: pointer;"><div class="ftop"><div><strong>IT Jobs</strong><span>Development, cloud, security</span></div><span class="pill p3">4 roles</span></div></a>
+            <a class="fitem" href="#updates" style="cursor: pointer;"><div class="ftop"><div><strong>IT Courses</strong><span>Development, cloud, security</span></div><span class="pill p3">5 courses</span></div></a>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-main">
         <div class="hero-wrap">
           <span class="eyebrow">Live career opportunities</span>
-          <h2>Find your next role with clarity and style</h2>
+          <h2>From 7001 Creations JOBS openings to your first offer — we're happy to help you get there!</h2>
           <p>Inspired by your references, this version blends premium cards, a dashboard sidebar, soft-glass panels, and bright gradients to create a more professional and modern job portal.</p>
           <div class="hero-actions">
             <a class="btn primary" href="#jobs">Start Exploring</a>
             <a class="btn soft" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp</a>
           </div>
-          <div class="stats">
-            <div class="stat"><strong id="jobCount">10</strong><span>Curated sample openings</span></div>
-            <div class="stat"><strong>3</strong><span>Focused job categories</span></div>
-            <div class="stat"><strong>Fast</strong><span>Direct apply experience</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sidegrid">
-        <div class="card" id="categories">
-          <h3>Top Categories</h3>
-          <div class="flist">
-            <div class="fitem"><div class="ftop"><div><strong>Off-Campus Drives</strong><span>Graduate and fresher roles</span></div><span class="pill p1">3 roles</span></div></div>
-            <div class="fitem"><div class="ftop"><div><strong>Walk-In Drives</strong><span>Interview-ready openings</span></div><span class="pill p2">3 roles</span></div></div>
-            <div class="fitem"><div class="ftop"><div><strong>IT Jobs</strong><span>Development, cloud, security</span></div><span class="pill p3">4 roles</span></div></div>
-          </div>
         </div>
       </div>
     </section>
 
-    <section class="summary">
-      <article class="sum purple"><div class="shead"><h3>Off-Campus Drives</h3><div class="sicon">🎓</div></div><div class="num">03</div><p>Fresh graduate openings in engineering, analytics, and QA pathways.</p></article>
-      <article class="sum blue"><div class="shead"><h3>Walk-In Drives</h3><div class="sicon">🚶</div></div><div class="num">03</div><p>Immediate hiring opportunities with faster screening and joining cycles.</p></article>
-      <article class="sum green"><div class="shead"><h3>IT Jobs</h3><div class="shead"><div class="sicon">💻</div></div></div><div class="num">04</div><p>Core tech roles spanning cloud, frontend, cybersecurity, and data.</p></article>
-    </section>
 
     <section class="jobs" id="jobs">
       <div class="jobshead">
@@ -235,11 +226,13 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
 
       <div class="info">
         <div class="infocard">
-          <h3>Quick Access</h3>
+          <h3>IT Courses</h3>
           <div class="ilist">
-            <div class="item"><span class="dot"></span><div><strong>Off-Campus</strong><span>Fresh graduate and entry-level opportunities.</span></div></div>
-            <div class="item"><span class="dot"></span><div><strong>Walk-In Drives</strong><span>Fast-track interview and hiring opportunities.</span></div></div>
-            <div class="item"><span class="dot"></span><div><strong>IT Jobs</strong><span>Cloud, frontend, cybersecurity, and data roles.</span></div></div>
+            <a class="item" href="https://www.youtube.com/watch?v=q3qqzZGI3ZE&list=PLaE51FvPHkQozoY9-qaENTqon5_05RSMc" target="_blank" rel="noopener noreferrer" style="cursor: pointer;"><span class="dot"></span><div><strong>HTML</strong><span>Complete HTML tutorial playlist</span></div></a>
+            <a class="item" href="https://www.youtube.com/watch?v=mrYLW3Xp94U&list=PLaE51FvPHkQoMfo9nTaKeAJqSZjYxYpY0" target="_blank" rel="noopener noreferrer" style="cursor: pointer;"><span class="dot"></span><div><strong>CSS</strong><span>Complete CSS tutorial playlist</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>SQL</strong><span>Uploading soon...</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>Core Java</strong><span>Uploading soon...</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>Python</strong><span>Uploading soon...</span></div></a>
           </div>
         </div>
       </div>
@@ -296,6 +289,37 @@ filterButtons.forEach(button=>{
     filterButtons.forEach(btn=>btn.classList.remove('active'));
     button.classList.add('active');
     renderJobs(activeFilter);
+  });
+});
+
+// IT Courses upcoming notification
+const upcomingCourses = document.querySelectorAll('[data-course="upcoming"]');
+upcomingCourses.forEach(course => {
+  course.addEventListener('click', (e) => {
+    e.preventDefault();
+    const courseName = course.querySelector('strong').textContent;
+    alert(`${courseName} course is uploading soon! Stay tuned for updates.`);
+  });
+});
+
+// Category filter from Top Categories section
+const categoryLinks = document.querySelectorAll('[data-category]');
+categoryLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const category = link.dataset.category;
+    
+    // Update active filter button
+    filterButtons.forEach(btn => btn.classList.remove('active'));
+    const targetButton = document.querySelector(`[data-filter="${category}"]`);
+    if (targetButton) {
+      targetButton.classList.add('active');
+      activeFilter = category;
+      renderJobs(activeFilter);
+    }
+    
+    // Scroll to jobs section
+    document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
   });
 });
 
