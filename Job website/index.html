@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>7001 creations</title>
+<meta name="description" content="7001 Creations Jobs premium portal for Off-Campus, Walk-In Drives and IT Jobs.">
+<style>
+:root{
+--bg:#f6f8ff;--bg2:#eef3ff;--text:#1c2340;--muted:#7480a3;--line:#dfe5fb;
+--white:#fff;--purple:#6d4df7;--purple2:#8b74ff;--blue:#17c5ff;--green:#20d98a;--dark:#13245f;
+--shadow:0 24px 60px rgba(84,97,156,.14);--shadow2:0 16px 34px rgba(91,103,163,.12);
+--r1:30px;--r2:24px;--r3:18px;--max:1320px}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);
+background:radial-gradient(circle at 0 0,rgba(109,77,247,.16),transparent 24%),
+radial-gradient(circle at 100% 0,rgba(23,197,255,.14),transparent 22%),
+linear-gradient(180deg,#f9fbff 0%,#eef3ff 55%,#f7f9ff 100%)}
+a{text-decoration:none;color:inherit}
+body:before,body:after{content:"";position:fixed;border-radius:50%;filter:blur(60px);z-index:-1;opacity:.45}
+body:before{width:260px;height:260px;left:-80px;top:-80px;background:rgba(109,77,247,.22)}
+body:after{width:280px;height:280px;right:-90px;bottom:-90px;background:rgba(23,197,255,.18)}
+.app{width:min(calc(100% - 28px),var(--max));margin:18px auto;display:grid;grid-template-columns:280px 1fr;gap:22px}
+.sidebar{position:sticky;top:18px;height:calc(100vh - 36px);padding:24px 20px;border-radius:var(--r1);
+background:linear-gradient(180deg,#0e215e 0%,#22368a 45%,#6d4df7 100%);color:#fff;box-shadow:var(--shadow);overflow:hidden}
+.sidebar:before{content:"";position:absolute;right:-50px;top:-50px;width:170px;height:170px;border-radius:50%;
+background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative;z-index:1}
+.logo{width:58px;height:58px;border-radius:20px;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%,#ffffff 0%,#dfe5ff 45%,#b7c5ff 100%);color:#2f1f90;font-weight:900;box-shadow:0 14px 26px rgba(0,0,0,.16);position:relative;overflow:hidden}
+.logo:before{content:"";position:absolute;inset:6px;border-radius:16px;background:linear-gradient(135deg,#6d4df7,#17c5ff)}
+.logo:after{content:"7001";position:absolute;font-size:.72rem;letter-spacing:.16em;color:#fff;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+.brand small{display:block;color:rgba(255,255,255,.72);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:800;margin-bottom:2px}
+.brand b{font-size:1.08rem;line-height:1.2}
+.navtitle{margin:1.2rem 0 .7rem;color:rgba(255,255,255,.62);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;font-weight:800}
+.navlink{display:flex;align-items:center;gap:12px;padding:.95rem 1rem;border-radius:16px;margin-bottom:.35rem;
+color:rgba(255,255,255,.86);font-weight:700;transition:.25s}
+.navlink:hover,.navlink.active{background:rgba(255,255,255,.14);transform:translateX(4px);color:#fff}
+.ico{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.13)}
+.whatside{display:flex;align-items:center;gap:12px;margin-top:22px;padding:1rem;border-radius:18px;background:linear-gradient(135deg,var(--green),#9effc8);
+color:#062718;font-weight:900;box-shadow:0 16px 30px rgba(32,217,138,.24);transition:.25s}
+.whatside:hover{transform:translateY(-3px)}
+.topbar{position:sticky;top:18px;z-index:50;background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.9);
+box-shadow:var(--shadow2);border-radius:24px;padding:16px 20px;margin-bottom:22px;display:flex;justify-content:space-between;gap:1rem;align-items:center}
+.topbar h1{margin:0;font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.03em}
+.topbar p{margin:.28rem 0 0;color:var(--muted);font-size:.95rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border:none;border-radius:999px;padding:.92rem 1.28rem;font-weight:800;font-size:.94rem;cursor:pointer;transition:.25s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 16px 30px rgba(109,77,247,.22)}
+.btn.soft{background:rgba(109,77,247,.08);color:#4c30dc;border:1px solid rgba(109,77,247,.12)}
+.btn.wa{background:linear-gradient(135deg,var(--green),#99ffc7);color:#052414;box-shadow:0 16px 30px rgba(32,217,138,.24)}
+.hero{display:grid;grid-template-columns:1.16fr .84fr;gap:22px;margin-bottom:22px}
+.hero-main{position:relative;overflow:hidden;min-height:360px;padding:34px;border-radius:32px;color:#fff;
+background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shadow:var(--shadow)}
+.hero-main:before{content:"";position:absolute;top:-55px;right:-25px;width:220px;height:220px;border-radius:38px;background:rgba(255,255,255,.12);transform:rotate(24deg)}
+.hero-main:after{content:"";position:absolute;left:-40px;bottom:-80px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
+.hero-wrap{position:relative;z-index:1;max-width:620px}
+.eyebrow{display:inline-flex;padding:.55rem .9rem;border-radius:999px;background:rgba(255,255,255,.15);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;font-weight:900}
+.hero h2{margin:1rem 0 .9rem;font-size:clamp(2.4rem,5vw,4rem);line-height:.96;letter-spacing:-.05em;max-width:11ch}
+.hero p{margin:0 0 1.5rem;color:rgba(255,255,255,.9);max-width:57ch}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.5rem}
+.hero-actions .primary{background:#fff;color:#422ac7}
+.hero-actions .soft{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{padding:1rem;border-radius:20px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px)}
+.stat strong{display:block;font-size:1.45rem;margin-bottom:.18rem}
+.stat span{font-size:.9rem;color:rgba(255,255,255,.84)}
+.sidegrid{display:grid;gap:18px}
+.card{background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.9);backdrop-filter:blur(14px);box-shadow:var(--shadow2);border-radius:28px;padding:22px}
+.card h3{margin:0 0 1rem;font-size:1.08rem}
+.flist{display:grid;gap:.9rem}
+.fitem{padding:1rem;border-radius:20px;background:linear-gradient(180deg,#fff,#f6f8ff);border:1px solid var(--line);transition:.25s}
+.fitem:hover{transform:translateY(-4px);box-shadow:var(--shadow2)}
+.ftop{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:.45rem}
+.fitem strong{display:block;font-size:.98rem;margin-bottom:.2rem}
+.fitem span,.fitem p{margin:0;color:var(--muted);font-size:.9rem}
+.pill{display:inline-flex;align-items:center;padding:.38rem .72rem;border-radius:999px;font-size:.74rem;font-weight:900;white-space:nowrap;color:#fff}
+.p1{background:linear-gradient(135deg,var(--purple),#967eff)} .p2{background:linear-gradient(135deg,var(--blue),#70e1ff)} .p3{background:linear-gradient(135deg,var(--green),#96ffc6);color:#073021}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+.sum{background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:26px;padding:22px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+.sum:after{content:"";position:absolute;right:-12px;bottom:-12px;width:88px;height:88px;border-radius:24px;opacity:.14;transform:rotate(18deg)}
+.sum.purple:after{background:var(--purple)} .sum.blue:after{background:var(--blue)} .sum.green:after{background:var(--green)}
+.shead{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem}
+.sicon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:900}
+.sum.purple .sicon{background:linear-gradient(135deg,var(--purple),#8d74ff)}
+.sum.blue .sicon{background:linear-gradient(135deg,var(--blue),#72e3ff)}
+.sum.green .sicon{background:linear-gradient(135deg,var(--green),#83ffba);color:#053021}
+.sum h3{margin:0;font-size:1.02rem}.num{font-size:2rem;font-weight:900;line-height:1;margin-bottom:.35rem;letter-spacing:-.04em}.sum p{margin:0;color:var(--muted);font-size:.93rem}
+.jobs{background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:32px;padding:24px;box-shadow:var(--shadow);margin-bottom:22px}
+.jobshead{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1.3rem}
+.jobshead h2{margin:0 0 .45rem;font-size:clamp(1.5rem,2.4vw,2rem);letter-spacing:-.03em}
+.jobshead p{margin:0;color:var(--muted);max-width:720px}
+.filters{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.3rem}
+.filter{border:none;border-radius:14px;padding:.88rem 1rem;background:#f5f7ff;color:var(--text);font-weight:800;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:.25s}
+.filter:hover,.filter.active{background:linear-gradient(135deg,var(--purple),#8d75ff);color:#fff;box-shadow:0 14px 28px rgba(109,77,247,.22);transform:translateY(-2px)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.job{background:linear-gradient(180deg,#fff,#f8faff);border-radius:24px;border:1px solid var(--line);box-shadow:0 14px 30px rgba(91,103,163,.09);padding:22px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:.28s}
+.job:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,var(--purple),var(--blue),var(--green))}
+.job:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(91,103,163,.16);border-color:#d4ddff}
+.job.hidden{display:none}
+.jobtop{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:1rem}
+.badge{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;font-weight:900;box-shadow:0 14px 26px rgba(109,77,247,.18)}
+.type{display:inline-flex;padding:.35rem .72rem;border-radius:999px;background:rgba(109,77,247,.08);color:#4d32d8;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;font-weight:900;margin-bottom:.65rem}
+.job h3{margin:0;font-size:1.12rem;line-height:1.3}.company{margin-top:.22rem;color:var(--muted);font-size:.93rem;font-weight:700}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1rem}
+.box{padding:.9rem;border-radius:16px;background:#f7f9ff;border:1px solid rgba(104,117,172,.12)}
+.box strong{display:block;color:#4d32d8;font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem}
+.box span{font-size:.92rem;font-weight:700}
+.desc{margin:0 0 1.1rem;color:var(--muted);font-size:.95rem;flex:1}
+.foot{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}
+.note{color:var(--purple);font-size:.85rem;font-weight:800}
+.apply{display:inline-flex;align-items:center;justify-content:center;padding:.86rem 1.15rem;border-radius:14px;background:linear-gradient(135deg,var(--purple),#8d74ff);color:#fff;font-weight:800;box-shadow:0 12px 26px rgba(109,77,247,.18);transition:.25s}
+.apply:hover{transform:translateY(-2px)}
+.bottom{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+.cta{position:relative;overflow:hidden;padding:28px;border-radius:32px;color:#fff;background:linear-gradient(135deg,#101d52 0%,#213280 45%,#6d4df7 100%);box-shadow:var(--shadow)}
+.cta:before{content:"";position:absolute;right:-45px;top:-38px;width:180px;height:180px;border-radius:30px;background:rgba(255,255,255,.12);transform:rotate(28deg)}
+.cta h2{position:relative;z-index:1;margin:0 0 .75rem;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.08}
+.cta p{position:relative;z-index:1;margin:0 0 1.35rem;color:rgba(255,255,255,.86);max-width:58ch}
+.cta .actions{position:relative;z-index:1}
+.info{display:grid;gap:18px}
+.infocard{background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:22px;box-shadow:var(--shadow2)}
+.infocard h3{margin:0 0 .9rem;font-size:1.06rem}
+.ilist{display:grid;gap:.8rem}
+.item{display:flex;gap:.8rem;align-items:flex-start;padding:.85rem .9rem;border-radius:16px;background:#f8faff;border:1px solid rgba(104,117,172,.12)}
+.dot{width:12px;height:12px;border-radius:50%;margin-top:.35rem;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--blue))}
+.item strong{display:block;font-size:.94rem;margin-bottom:.15rem}.item span{color:var(--muted);font-size:.9rem}
+.footer{text-align:center;padding:22px 10px 34px;color:var(--muted);font-size:.92rem}
+.floatwa{position:fixed;right:20px;bottom:20px;z-index:1200;display:inline-flex;align-items:center;gap:.7rem;padding:.95rem 1.08rem;border-radius:18px;background:linear-gradient(135deg,var(--green),#9effc8);color:#072516;font-weight:900;box-shadow:0 18px 34px rgba(32,217,138,.28);transition:.25s}
+.floatwa:hover{transform:translateY(-3px)}
+@media (max-width:1180px){
+.app{grid-template-columns:1fr}.sidebar{position:relative;top:0;height:auto}.hero,.bottom{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}
+}
+@media (max-width:780px){
+.app{width:min(calc(100% - 18px),var(--max));margin:10px auto;gap:14px}
+.sidebar,.topbar,.hero-main,.card,.sum,.jobs,.cta,.infocard{border-radius:22px}
+.topbar,.jobshead,.foot{flex-direction:column;align-items:stretch}.actions{justify-content:flex-start}
+.hero,.summary,.grid,.meta,.bottom,.stats{grid-template-columns:1fr}.filters .filter{flex:1 1 calc(50% - .8rem)}
+.floatwa{right:14px;bottom:14px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="brand" href="#top">
+      <span class="logo" aria-hidden="true"></span>
+      <span><small>Premium Portal</small><b>7001 creations</b></span>
+    </a>
+    <div class="navtitle">Navigation</div>
+    <a class="navlink active" href="#top"><span class="ico">🏠</span><span>Dashboard</span></a>
+    <a class="navlink" href="#jobs"><span class="ico">💼</span><span>Jobs Board</span></a>
+    <a class="navlink" href="#categories"><span class="ico">📚</span><span>Categories</span></a>
+    <a class="navlink" href="#updates"><span class="ico">⚡</span><span>Updates</span></a>
+    <div class="navtitle">Community</div>
+    <a class="whatside" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer"><span>💬</span><span>Join WhatsApp Alerts</span></a>
+  </aside>
+
+  <main id="top">
+    <header class="topbar">
+      <div>
+        <h1>Premium Job Discovery Experience</h1>
+        <p>Modern dashboard-inspired UI for Off-Campus, Walk-In Drives, and IT Jobs.</p>
+      </div>
+      <div class="actions">
+        <a class="btn soft" href="#categories">View Categories</a>
+        <a class="btn primary" href="#jobs">Browse Jobs</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-wrap">
+          <span class="eyebrow">Live career opportunities</span>
+          <h2>Find your next role with clarity and style</h2>
+          <p>Inspired by your references, this version blends premium cards, a dashboard sidebar, soft-glass panels, and bright gradients to create a more professional and modern job portal.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#jobs">Start Exploring</a>
+            <a class="btn soft" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong id="jobCount">10</strong><span>Curated sample openings</span></div>
+            <div class="stat"><strong>3</strong><span>Focused job categories</span></div>
+            <div class="stat"><strong>Fast</strong><span>Direct apply experience</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidegrid">
+        <div class="card">
+          <h3>Featured Openings</h3>
+          <div class="flist">
+            <div class="fitem">
+              <div class="ftop"><div><strong>Graduate Software Engineer</strong><span>Infosys • Bangalore</span></div><span class="pill p1">Off-Campus</span></div>
+              <p>Fresh graduate role with coding-focused onboarding and mentorship.</p>
+            </div>
+            <div class="fitem">
+              <div class="ftop"><div><strong>Customer Support Associate</strong><span>Tech Mahindra • Hyderabad</span></div><span class="pill p2">Walk-In</span></div>
+              <p>Immediate interview-driven hiring with faster joining.</p>
+            </div>
+            <div class="fitem">
+              <div class="ftop"><div><strong>Cloud Operations Analyst</strong><span>Wipro • Pune</span></div><span class="pill p3">IT Job</span></div>
+              <p>Cloud and infrastructure monitoring for early-career candidates.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="categories">
+          <h3>Top Categories</h3>
+          <div class="flist">
+            <div class="fitem"><div class="ftop"><div><strong>Off-Campus Drives</strong><span>Graduate and fresher roles</span></div><span class="pill p1">3 roles</span></div></div>
+            <div class="fitem"><div class="ftop"><div><strong>Walk-In Drives</strong><span>Interview-ready openings</span></div><span class="pill p2">3 roles</span></div></div>
+            <div class="fitem"><div class="ftop"><div><strong>IT Jobs</strong><span>Development, cloud, security</span></div><span class="pill p3">4 roles</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary">
+      <article class="sum purple"><div class="shead"><h3>Off-Campus Drives</h3><div class="sicon">🎓</div></div><div class="num">03</div><p>Fresh graduate openings in engineering, analytics, and QA pathways.</p></article>
+      <article class="sum blue"><div class="shead"><h3>Walk-In Drives</h3><div class="sicon">🚶</div></div><div class="num">03</div><p>Immediate hiring opportunities with faster screening and joining cycles.</p></article>
+      <article class="sum green"><div class="shead"><h3>IT Jobs</h3><div class="shead"><div class="sicon">💻</div></div></div><div class="num">04</div><p>Core tech roles spanning cloud, frontend, cybersecurity, and data.</p></article>
+    </section>
+
+    <section class="jobs" id="jobs">
+      <div class="jobshead">
+        <div>
+          <h2>Curated jobs board</h2>
+          <p>Filter premium cards by category and review company, role, location, eligibility, and description before applying.</p>
+        </div>
+        <a class="btn wa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp Updates</a>
+      </div>
+
+      <div class="filters">
+        <button class="filter active" type="button" data-filter="all">All Jobs</button>
+        <button class="filter" type="button" data-filter="off-campus">Off-Campus</button>
+        <button class="filter" type="button" data-filter="walk-in">Walk-In Drives</button>
+        <button class="filter" type="button" data-filter="it-jobs">IT Jobs</button>
+      </div>
+
+      <div class="grid" id="jobsGrid"></div>
+    </section>
+
+    <section class="bottom" id="updates">
+      <div class="cta">
+        <h2>Stay connected with every new opening</h2>
+        <p>Join the 7001 Creations Jobs WhatsApp group to receive quick alerts on Off-Campus drives, Walk-In events, and trending IT roles as soon as they are published.</p>
+        <div class="actions">
+          <a class="btn wa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp Group</a>
+          <a class="btn soft" href="#top">Back to Top</a>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="infocard">
+          <h3>Why this UI is better</h3>
+          <div class="ilist">
+            <div class="item"><span class="dot"></span><div><strong>Dashboard-style layout</strong><span>Sidebar + content panels inspired by your references.</span></div></div>
+            <div class="item"><span class="dot"></span><div><strong>Premium visual hierarchy</strong><span>Large hero, soft glass cards, and cleaner spacing.</span></div></div>
+            <div class="item"><span class="dot"></span><div><strong>Better color composition</strong><span>Balanced purple, blue, and green accents with a light luxury feel.</span></div></div>
+          </div>
+        </div>
+
+        <div class="infocard">
+          <h3>Quick Access</h3>
+          <div class="ilist">
+            <div class="item"><span class="dot"></span><div><strong>Off-Campus</strong><span>Fresh graduate and entry-level opportunities.</span></div></div>
+            <div class="item"><span class="dot"></span><div><strong>Walk-In Drives</strong><span>Fast-track interview and hiring opportunities.</span></div></div>
+            <div class="item"><span class="dot"></span><div><strong>IT Jobs</strong><span>Cloud, frontend, cybersecurity, and data roles.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">© 2026 7001 Creations Jobs — Premium single-file job portal experience.</div>
+  </main>
+</div>
+
+<a class="floatwa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">💬 Join WhatsApp</a>
+
+<script>
+const filterButtons=document.querySelectorAll('.filter');
+const jobsGrid=document.getElementById('jobsGrid');
+const jobCount=document.getElementById('jobCount');
+let allJobs=[];
+let activeFilter='all';
+
+function createJobCard(job){
+  return `
+    <article class="job" data-category="${job.category}">
+      <div class="jobtop">
+        <div>
+          <span class="type">${job.categoryLabel}</span>
+          <h3>${job.title}</h3>
+          <div class="company">${job.company}</div>
+        </div>
+        <div class="badge">${job.badge}</div>
+      </div>
+      <div class="meta">
+        <div class="box"><strong>Location</strong><span>${job.location}</span></div>
+        <div class="box"><strong>Eligibility</strong><span>${job.eligibility}</span></div>
+      </div>
+      <p class="desc">${job.description}</p>
+      <div class="foot">
+        <span class="note">${job.note}</span>
+        <a class="apply" href="${job.applyUrl}" target="_blank" rel="noopener noreferrer">Apply Now</a>
+      </div>
+    </article>
+  `;
+}
+
+function renderJobs(filter='all'){
+  const visibleJobs=allJobs.filter(job=>job.active && (filter==='all'||job.category===filter));
+  jobsGrid.innerHTML=visibleJobs.map(createJobCard).join('');
+  if(jobCount){
+    jobCount.textContent=allJobs.filter(job=>job.active).length;
+  }
+}
+
+filterButtons.forEach(button=>{
+  button.addEventListener('click',()=>{
+    activeFilter=button.dataset.filter;
+    filterButtons.forEach(btn=>btn.classList.remove('active'));
+    button.classList.add('active');
+    renderJobs(activeFilter);
+  });
+});
+
+fetch('jobs.json')
+  .then(response=>response.json())
+  .then(data=>{
+    allJobs=data;
+    renderJobs(activeFilter);
+  })
+  .catch(error=>{
+    console.error('Failed to load jobs:', error);
+    jobsGrid.innerHTML='<p style="grid-column:1/-1;color:#7480a3;font-weight:700">Unable to load jobs data. Please check jobs.json.</p>';
+  });
+</script>
+</body>
+</html>
