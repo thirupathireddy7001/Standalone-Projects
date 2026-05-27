@@ -49,7 +49,7 @@ box-shadow:var(--shadow2);border-radius:24px;padding:16px 20px;margin-bottom:22p
 .btn.primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 16px 30px rgba(109,77,247,.22)}
 .btn.soft{background:rgba(109,77,247,.08);color:#4c30dc;border:1px solid rgba(109,77,247,.12)}
 .btn.wa{background:linear-gradient(135deg,var(--green),#99ffc7);color:#052414;box-shadow:0 16px 30px rgba(32,217,138,.24)}
-.hero{display:grid;grid-template-columns:.84fr 1.16fr;gap:22px;margin-bottom:22px}
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;margin-bottom:22px}
 .hero-main{position:relative;overflow:hidden;min-height:360px;padding:34px;border-radius:32px;color:#fff;
 background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shadow:var(--shadow)}
 .hero-main:before{content:"";position:absolute;top:-55px;right:-25px;width:220px;height:220px;border-radius:38px;background:rgba(255,255,255,.12);transform:rotate(24deg)}
@@ -72,8 +72,16 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
 .fitem{padding:1rem;border-radius:20px;background:linear-gradient(180deg,#fff,#f6f8ff);border:1px solid var(--line);transition:.25s}
 .fitem:hover{transform:translateY(-4px);box-shadow:var(--shadow2)}
 .ftop{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:.45rem}
-.fitem strong{display:block;font-size:.98rem;margin-bottom:.2rem}
-.fitem span,.fitem p{margin:0;color:var(--muted);font-size:.9rem}
+.fitem strong{display:block;font-size:.98rem;margin-bottom:.2rem;color:var(--text)}
+.fitem span,.fitem p{margin:0;font-size:.9rem}
+.fitem[data-category="off-campus"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fitem[data-category="off-campus"] span{color:#8b74ff}
+.fitem[data-category="walk-in"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fitem[data-category="walk-in"] span{color:#8b74ff}
+.fitem[data-category="it-jobs"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fitem[data-category="it-jobs"] span{color:#8b74ff}
+.fitem[href="#updates"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fitem[href="#updates"] span{color:#8b74ff}
 .pill{display:inline-flex;align-items:center;padding:.38rem .72rem;border-radius:999px;font-size:.74rem;font-weight:900;white-space:nowrap;color:#fff}
 .p1{background:linear-gradient(135deg,var(--purple),#967eff)} .p2{background:linear-gradient(135deg,var(--blue),#70e1ff)} .p3{background:linear-gradient(135deg,var(--green),#96ffc6);color:#073021}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
@@ -93,7 +101,7 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
 .filters{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:1.3rem}
 .filter{border:none;border-radius:14px;padding:.88rem 1rem;background:#f5f7ff;color:var(--text);font-weight:800;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line);transition:.25s}
 .filter:hover,.filter.active{background:linear-gradient(135deg,var(--purple),#8d75ff);color:#fff;box-shadow:0 14px 28px rgba(109,77,247,.22);transform:translateY(-2px)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .job{background:linear-gradient(180deg,#fff,#f8faff);border-radius:24px;border:1px solid var(--line);box-shadow:0 14px 30px rgba(91,103,163,.09);padding:22px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:.28s}
 .job:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,var(--purple),var(--blue),var(--green))}
 .job:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(91,103,163,.16);border-color:#d4ddff}
@@ -157,39 +165,25 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
   </aside>
 
   <main id="top">
-    <header class="topbar">
-      <div>
-        <h1>Premium Job Discovery Experience</h1>
-        <p>Modern dashboard-inspired UI for Off-Campus, Walk-In Drives, and IT Jobs.</p>
+    <header class="topbar" style="background: linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%); border: none; position: relative; overflow: hidden;">
+      <div style="position: relative; z-index: 1;">
+        <span style="display: inline-flex; padding: 0.55rem 0.9rem; border-radius: 999px; background: rgba(255,255,255,0.15); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 900; color: #fff; margin-bottom: 1rem;">LIVE CAREER OPPORTUNITIES</span>
+        <h1 style="color: #fff; margin: 0;">From 7001 Creations JOBS openings to your first offer — we're happy to help you get there!</h1>
       </div>
       <div class="actions">
-        <a class="btn soft" href="#categories">View Categories</a>
-        <a class="btn primary" href="#jobs">Browse Jobs</a>
+        <a class="btn primary" href="#jobs" style="background: #fff; color: #422ac7;">Start Exploring</a>
+        <a class="btn soft" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.22);">Join WhatsApp</a>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="sidegrid">
-        <div class="card" id="categories">
-          <h3>Top Categories</h3>
-          <div class="flist">
-            <a class="fitem" href="#jobs" data-category="off-campus" style="cursor: pointer;"><div class="ftop"><div><strong>Off-Campus Drives</strong><span>Graduate and fresher roles</span></div><span class="pill p1">3 roles</span></div></a>
-            <a class="fitem" href="#jobs" data-category="walk-in" style="cursor: pointer;"><div class="ftop"><div><strong>Walk-In Drives</strong><span>Interview-ready openings</span></div><span class="pill p2">3 roles</span></div></a>
-            <a class="fitem" href="#jobs" data-category="it-jobs" style="cursor: pointer;"><div class="ftop"><div><strong>IT Jobs</strong><span>Development, cloud, security</span></div><span class="pill p3">4 roles</span></div></a>
-            <a class="fitem" href="#updates" style="cursor: pointer;"><div class="ftop"><div><strong>IT Courses</strong><span>Development, cloud, security</span></div><span class="pill p3">5 courses</span></div></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-main">
-        <div class="hero-wrap">
-          <span class="eyebrow">Live career opportunities</span>
-          <h2>From 7001 Creations JOBS openings to your first offer — we're happy to help you get there!</h2>
-          <p>Inspired by your references, this version blends premium cards, a dashboard sidebar, soft-glass panels, and bright gradients to create a more professional and modern job portal.</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#jobs">Start Exploring</a>
-            <a class="btn soft" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp</a>
-          </div>
+    <section id="categories" style="margin-bottom: 22px;">
+      <div class="card">
+        <h3>Top Categories</h3>
+        <div class="flist">
+          <a class="fitem" href="#jobs" data-category="off-campus" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">Off-Campus Drives</strong><span style="font-size: 1.05rem;">Graduate and fresher roles</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">3 roles</span></div></a>
+          <a class="fitem" href="#jobs" data-category="walk-in" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">Walk-In Drives</strong><span style="font-size: 1.05rem;">Interview-ready openings</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">3 roles</span></div></a>
+          <a class="fitem" href="#jobs" data-category="it-jobs" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">IT Jobs</strong><span style="font-size: 1.05rem;">Development, cloud, security</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">4 roles</span></div></a>
+          <a class="fitem" href="#updates" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">IT Courses</strong><span style="font-size: 1.05rem;">Development, cloud, security</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">5 courses</span></div></a>
         </div>
       </div>
     </section>
@@ -212,28 +206,34 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
       </div>
 
       <div class="grid" id="jobsGrid"></div>
+      
+      <div id="pagination" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+        <button id="prevPage" class="btn soft" style="display: none;">← Previous</button>
+        <span id="pageInfo" style="font-weight: 700; color: var(--text);"></span>
+        <button id="nextPage" class="btn soft" style="display: none;">Next →</button>
+      </div>
     </section>
 
-    <section class="bottom" id="updates">
-      <div class="cta">
-        <h2>Stay connected with every new opening</h2>
-        <p>Join the 7001 Creations Jobs WhatsApp group to receive quick alerts on Off-Campus drives, Walk-In events, and trending IT roles as soon as they are published.</p>
-        <div class="actions">
-          <a class="btn wa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp Group</a>
-          <a class="btn soft" href="#top">Back to Top</a>
+    <section class="bottom" id="updates" style="grid-template-columns: 1.2fr 0.8fr;">
+      <div class="info">
+        <div class="infocard" style="padding: 32px; background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);">
+          <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">IT Courses</h3>
+          <div class="ilist" style="gap: 1.2rem;">
+            <a class="item" href="https://www.youtube.com/watch?v=q3qqzZGI3ZE&list=PLaE51FvPHkQozoY9-qaENTqon5_05RSMc" target="_blank" rel="noopener noreferrer" style="cursor: pointer; padding: 1.3rem 1.1rem;"><span class="dot" style="width: 14px; height: 14px;"></span><div><strong style="font-size: 1.15rem; margin-bottom: 0.3rem;">HTML</strong><span style="font-size: 1.05rem;">Complete HTML tutorial playlist</span></div></a>
+            <a class="item" href="https://www.youtube.com/watch?v=mrYLW3Xp94U&list=PLaE51FvPHkQoMfo9nTaKeAJqSZjYxYpY0" target="_blank" rel="noopener noreferrer" style="cursor: pointer; padding: 1.3rem 1.1rem;"><span class="dot" style="width: 14px; height: 14px;"></span><div><strong style="font-size: 1.15rem; margin-bottom: 0.3rem;">CSS</strong><span style="font-size: 1.05rem;">Complete CSS tutorial playlist</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer; padding: 1.3rem 1.1rem;"><span class="dot" style="width: 14px; height: 14px;"></span><div><strong style="font-size: 1.15rem; margin-bottom: 0.3rem;">SQL</strong><span style="font-size: 1.05rem;">Uploading soon...</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer; padding: 1.3rem 1.1rem;"><span class="dot" style="width: 14px; height: 14px;"></span><div><strong style="font-size: 1.15rem; margin-bottom: 0.3rem;">Core Java</strong><span style="font-size: 1.05rem;">Uploading soon...</span></div></a>
+            <a class="item" href="#" data-course="upcoming" style="cursor: pointer; padding: 1.3rem 1.1rem;"><span class="dot" style="width: 14px; height: 14px;"></span><div><strong style="font-size: 1.15rem; margin-bottom: 0.3rem;">Python</strong><span style="font-size: 1.05rem;">Uploading soon...</span></div></a>
+          </div>
         </div>
       </div>
 
-      <div class="info">
-        <div class="infocard">
-          <h3>IT Courses</h3>
-          <div class="ilist">
-            <a class="item" href="https://www.youtube.com/watch?v=q3qqzZGI3ZE&list=PLaE51FvPHkQozoY9-qaENTqon5_05RSMc" target="_blank" rel="noopener noreferrer" style="cursor: pointer;"><span class="dot"></span><div><strong>HTML</strong><span>Complete HTML tutorial playlist</span></div></a>
-            <a class="item" href="https://www.youtube.com/watch?v=mrYLW3Xp94U&list=PLaE51FvPHkQoMfo9nTaKeAJqSZjYxYpY0" target="_blank" rel="noopener noreferrer" style="cursor: pointer;"><span class="dot"></span><div><strong>CSS</strong><span>Complete CSS tutorial playlist</span></div></a>
-            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>SQL</strong><span>Uploading soon...</span></div></a>
-            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>Core Java</strong><span>Uploading soon...</span></div></a>
-            <a class="item" href="#" data-course="upcoming" style="cursor: pointer;"><span class="dot"></span><div><strong>Python</strong><span>Uploading soon...</span></div></a>
-          </div>
+      <div class="cta" style="padding: 24px;">
+        <h2 style="font-size: 1.6rem;">Stay connected with every new opening</h2>
+        <p style="font-size: 0.92rem;">Join the 7001 Creations Jobs WhatsApp group to receive quick alerts on Off-Campus drives, Walk-In events, and trending IT roles as soon as they are published.</p>
+        <div class="actions">
+          <a class="btn wa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">Join WhatsApp Group</a>
+          <a class="btn soft" href="#top">Back to Top</a>
         </div>
       </div>
     </section>
@@ -245,11 +245,88 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
 <a class="floatwa" href="https://chat.whatsapp.com/FQeZhytfuts756f8nI5r4s" target="_blank" rel="noopener noreferrer">💬 Join WhatsApp</a>
 
 <script>
+/*
+===========================================
+HOW TO ADD OR UPDATE JOBS
+===========================================
+
+To add new jobs or update existing ones, scroll down to the "allJobs" array (around line 400).
+
+ADDING A NEW JOB:
+-----------------
+1. Copy an existing job object from the allJobs array
+2. Paste it at the end of the array (before the closing bracket ]
+3. Update the following fields:
+
+   - id: Increment the number (e.g., if last job is id: 10, use id: 11)
+   - category: Choose from "off-campus", "walk-in", or "it-jobs"
+   - categoryLabel: Choose from "Off-Campus", "Walk-In Drive", or "IT Job"
+   - title: Job title (e.g., "Senior Software Engineer")
+   - company: Company name (e.g., "Google")
+   - badge: 2-3 letter company abbreviation (e.g., "GG" for Google)
+   - location: Job location (e.g., "Bangalore / Remote")
+   - eligibility: Requirements (e.g., "B.Tech/MCA, 2-4 years")
+   - description: Brief job description (1-2 sentences)
+   - note: Additional info (e.g., "Full-time • Remote")
+   - applyUrl: Application link (full URL)
+   - active: Set to true to show the job, false to hide it
+
+EXAMPLE - Adding a new job:
+---------------------------
+{
+  "id": 11,
+  "category": "it-jobs",
+  "categoryLabel": "IT Job",
+  "title": "Full Stack Developer",
+  "company": "Amazon",
+  "badge": "AM",
+  "location": "Hyderabad / Hybrid",
+  "eligibility": "B.Tech/MCA, 1-3 years",
+  "description": "Build scalable web applications using React, Node.js, and AWS services with modern development practices.",
+  "note": "Full-time • Hybrid",
+  "applyUrl": "https://www.amazon.jobs/en/search",
+  "active": true
+},
+
+UPDATING AN EXISTING JOB:
+-------------------------
+1. Find the job by its id or title in the allJobs array
+2. Modify any field you want to update
+3. Save the file
+
+HIDING A JOB (without deleting):
+---------------------------------
+Set "active": false for that job
+
+UPDATING JOB COUNTS:
+--------------------
+The role counts (e.g., "3 roles") in the Top Categories section are hardcoded.
+To update them:
+1. Search for "Top Categories" in the HTML (around line 180)
+2. Find the pill spans (e.g., <span class="pill" ...>3 roles</span>)
+3. Update the numbers manually
+
+TIPS:
+-----
+- Always add a comma after each job object (except the last one)
+- Keep the JSON format valid (proper quotes, brackets, commas)
+- Test the page after adding jobs to ensure they display correctly
+- Use the filter buttons to verify jobs appear in the correct category
+- The pagination will automatically handle more than 9 jobs per page
+
+===========================================
+*/
+
 const filterButtons=document.querySelectorAll('.filter');
 const jobsGrid=document.getElementById('jobsGrid');
 const jobCount=document.getElementById('jobCount');
+const prevPageBtn=document.getElementById('prevPage');
+const nextPageBtn=document.getElementById('nextPage');
+const pageInfo=document.getElementById('pageInfo');
 let allJobs=[];
 let activeFilter='all';
+let currentPage=1;
+const jobsPerPage=9;
 
 function createJobCard(job){
   return `
@@ -277,15 +354,58 @@ function createJobCard(job){
 
 function renderJobs(filter='all'){
   const visibleJobs=allJobs.filter(job=>job.active && (filter==='all'||job.category===filter));
-  jobsGrid.innerHTML=visibleJobs.map(createJobCard).join('');
+  const totalPages=Math.ceil(visibleJobs.length/jobsPerPage);
+  
+  // Reset to page 1 if current page exceeds total pages
+  if(currentPage>totalPages) currentPage=1;
+  
+  const startIndex=(currentPage-1)*jobsPerPage;
+  const endIndex=startIndex+jobsPerPage;
+  const jobsToShow=visibleJobs.slice(startIndex,endIndex);
+  
+  jobsGrid.innerHTML=jobsToShow.map(createJobCard).join('');
+  
   if(jobCount){
     jobCount.textContent=allJobs.filter(job=>job.active).length;
   }
+  
+  // Update pagination controls
+  if(totalPages>1){
+    prevPageBtn.style.display=currentPage>1?'inline-flex':'none';
+    nextPageBtn.style.display=currentPage<totalPages?'inline-flex':'none';
+    pageInfo.textContent=`Page ${currentPage} of ${totalPages}`;
+    pageInfo.style.display='block';
+  }else{
+    prevPageBtn.style.display='none';
+    nextPageBtn.style.display='none';
+    pageInfo.style.display='none';
+  }
+  
+  // Scroll to jobs section
+  document.getElementById('jobs').scrollIntoView({behavior:'smooth',block:'start'});
 }
+
+// Pagination button handlers
+prevPageBtn.addEventListener('click',()=>{
+  if(currentPage>1){
+    currentPage--;
+    renderJobs(activeFilter);
+  }
+});
+
+nextPageBtn.addEventListener('click',()=>{
+  const visibleJobs=allJobs.filter(job=>job.active && (activeFilter==='all'||job.category===activeFilter));
+  const totalPages=Math.ceil(visibleJobs.length/jobsPerPage);
+  if(currentPage<totalPages){
+    currentPage++;
+    renderJobs(activeFilter);
+  }
+});
 
 filterButtons.forEach(button=>{
   button.addEventListener('click',()=>{
     activeFilter=button.dataset.filter;
+    currentPage=1; // Reset to first page when changing filter
     filterButtons.forEach(btn=>btn.classList.remove('active'));
     button.classList.add('active');
     renderJobs(activeFilter);
@@ -310,6 +430,7 @@ categoryLinks.forEach(link => {
     const category = link.dataset.category;
     
     // Update active filter button
+    currentPage=1; // Reset to first page
     filterButtons.forEach(btn => btn.classList.remove('active'));
     const targetButton = document.querySelector(`[data-filter="${category}"]`);
     if (targetButton) {
