@@ -74,12 +74,8 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
 .ftop{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:.45rem}
 .fitem strong{display:block;font-size:.98rem;margin-bottom:.2rem;color:var(--text)}
 .fitem span,.fitem p{margin:0;font-size:.9rem}
-.fitem[data-category="off-campus"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.fitem[data-category="off-campus"] span{color:#8b74ff}
-.fitem[data-category="walk-in"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.fitem[data-category="walk-in"] span{color:#8b74ff}
-.fitem[data-category="it-jobs"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.fitem[data-category="it-jobs"] span{color:#8b74ff}
+.fitem[data-category="all"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fitem[data-category="all"] span{color:#8b74ff}
 .fitem[href="#updates"] strong{background:linear-gradient(135deg,var(--purple),#8d74ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .fitem[href="#updates"] span{color:#8b74ff}
 .pill{display:inline-flex;align-items:center;padding:.38rem .72rem;border-radius:999px;font-size:.74rem;font-weight:900;white-space:nowrap;color:#fff}
@@ -180,9 +176,7 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
       <div class="card">
         <h3>Top Categories</h3>
         <div class="flist">
-          <a class="fitem" href="#jobs" data-category="off-campus" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">Off-Campus Drives</strong><span style="font-size: 1.05rem;">Graduate and fresher roles</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">3 roles</span></div></a>
-          <a class="fitem" href="#jobs" data-category="walk-in" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">Walk-In Drives</strong><span style="font-size: 1.05rem;">Interview-ready openings</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">3 roles</span></div></a>
-          <a class="fitem" href="#jobs" data-category="it-jobs" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">IT Jobs</strong><span style="font-size: 1.05rem;">Development, cloud, security</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">4 roles</span></div></a>
+          <a class="fitem" href="#jobs" data-category="all" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">Jobs</strong><span style="font-size: 1.05rem;">All available job openings</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">All roles</span></div></a>
           <a class="fitem" href="#updates" style="cursor: pointer;"><div class="ftop"><div><strong style="font-size: 1.25rem;">IT Courses</strong><span style="font-size: 1.05rem;">Development, cloud, security</span></div><span class="pill" style="background: #e8ecf7; color: #4d32d8;">5 courses</span></div></a>
         </div>
       </div>
@@ -449,7 +443,12 @@ categoryLinks.forEach(link => {
     // Update active filter button
     currentPage=1; // Reset to first page
     filterButtons.forEach(btn => btn.classList.remove('active'));
-    const targetButton = document.querySelector(`[data-filter="${category}"]`);
+    
+    // If category is 'all', activate the 'All Jobs' filter
+    const targetButton = category === 'all'
+      ? document.querySelector('[data-filter="all"]')
+      : document.querySelector(`[data-filter="${category}"]`);
+    
     if (targetButton) {
       targetButton.classList.add('active');
       activeFilter = category;
@@ -494,7 +493,6 @@ allJobs = [
     "applyUrl": "https://app.joinsuperset.com/join/#/signup/student/jobprofiles/aa8dda8f-2e39-4377-bf46-a255f7f941e3",
     "active": true
   }
-
 ];
 
 // Render jobs immediatelytk
