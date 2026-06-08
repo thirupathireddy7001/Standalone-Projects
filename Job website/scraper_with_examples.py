@@ -20,14 +20,14 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 # Configuration
-JOBS_FILE = "jobs.json"  # Same directory as index.html
+JOBS_FILE = "../jobs.json"  # Parent directory where index.html is located
 
 # ANSWER TO QUESTION 2: How to add another website
 # Simply add a new entry to this list with the website details
 SCRAPING_SOURCES = [
     {
         "name": "LinkedIn",
-        "enabled": False,  # Disabled - requires authentication
+        "enabled": True,  # Now enabled
         "url": "https://www.linkedin.com/jobs/search/?keywords=software%20engineer&location=India&f_E=1%2C2",
         "type": "selenium"
     },
@@ -121,30 +121,79 @@ class JobScraper:
         
         try:
             driver.get(url)
-            time.sleep(3)
+            time.sleep(5)  # Increased wait time
             
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             job_cards = soup.find_all('div', class_='job_seen_beacon')
             
             print(f"Found {len(job_cards)} job cards on Indeed")
             
+            # Debug: Print first card's HTML structure if no jobs extracted
+            if len(job_cards) > 0:
+                print("\n--- DEBUG: First job card structure ---")
+                first_card = job_cards[0]
+                print(f"Card classes: {first_card.get('class')}")
+                
+                # Check for title elements
+                title_options = [
+                    first_card.find('h2', class_='jobTitle'),
+                    first_card.find('a', class_='jcs-JobTitle'),
+                    first_card.find('span', attrs={'title': True})
+                ]
+                print(f"Title elements found: {[bool(t) for t in title_options]}")
+                
+                # Check for company elements
+                company_options = [
+                    first_card.find('span', class_='companyName'),
+                    first_card.find('span', {'data-testid': 'company-name'}),
+                    first_card.find('span', class_='css-63koeb')
+                ]
+                print(f"Company elements found: {[bool(c) for c in company_options]}")
+                print("--- END DEBUG ---\n")
+            
             for card in job_cards[:5]:  # Limit to 5 jobs for demo
                 try:
-                    title_elem = card.find('h2', class_='jobTitle')
-                    company_elem = card.find('span', class_='companyName')
+                    # Try multiple selector patterns for title
+                    title_elem = (card.find('h2', class_='jobTitle') or
+                                 card.find('a', class_='jcs-JobTitle') or
+                                 card.find('span', attrs={'title': True}))
                     
-                    if title_elem and company_elem:
+                    # Try multiple selector patterns for company
+                    company_elem = (card.find('span', class_='companyName') or
+                                   card.find('span', {'data-testid': 'company-name'}) or
+                                   card.find('span', class_='css-63koeb'))
+                    
+                    # Extract location if available
+                    location_elem = (card.find('div', class_='companyLocation') or
+                                    card.find('div', {'data-testid': 'text-location'}))
+                    
+                    # Get title text
+                    if title_elem:
+                        # Handle both direct text and nested spans
+                        title_text = title_elem.get_text(strip=True)
+                        if not title_text and title_elem.find('span'):
+                            title_text = title_elem.find('span').get_text(strip=True)
+                    else:
+                        title_text = None
+                    
+                    # Get company text
+                    company_text = company_elem.get_text(strip=True) if company_elem else None
+                    
+                    # Get location text
+                    location_text = location_elem.get_text(strip=True) if location_elem else "India"
+                    
+                    if title_text and company_text:
                         job = {
                             "id": self.job_id_counter,
                             "category": "off-campus",
                             "categoryLabel": "Off-Campus",
-                            "title": title_elem.get_text(strip=True),
-                            "company": company_elem.text.strip(),
-                            "badge": company_elem.text.strip()[:2].upper(),
-                            "location": "India",
+                            "title": title_text,
+                            "company": company_text,
+                            "badge": company_text[:2].upper(),
+                            "location": location_text,
                             "eligibility": "Check job details",
                             "Last Date to Apply": "Apply ASAP",
-                            "description": f"Opportunity at {company_elem.text.strip()}.",
+                            "description": f"Opportunity at {company_text}.",
                             "note": "Entry-level • Full-time",
                             "applyUrl": url,
                             "active": True
@@ -153,9 +202,11 @@ class JobScraper:
                         self.jobs.append(job)
                         self.job_id_counter += 1
                         print(f"  ✓ Added: {job['title']} at {job['company']}")
+                    else:
+                        print(f"  ✗ Skipped: Missing title or company (title={bool(title_text)}, company={bool(company_text)})")
                         
                 except Exception as e:
-                    print(f"  ✗ Error: {e}")
+                    print(f"  ✗ Error extracting job: {e}")
                     continue
                     
         except Exception as e:
@@ -201,6 +252,59 @@ class JobScraper:
         except Exception as e:
             print(f"Error saving jobs: {e}")
     
+    def scrape_linkedin(self, url):
+        """
+        Scrape jobs from LinkedIn
+        Note: LinkedIn requires login, so this is a basic implementation
+        """
+        print(f"Scraping LinkedIn: {url}")
+        driver = self.setup_driver()
+        
+        try:
+            driver.get(url)
+            time.sleep(5)  # Wait for page load
+            
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            job_cards = soup.find_all('div', class_='base-card')
+            
+            print(f"Found {len(job_cards)} job cards on LinkedIn")
+            
+            for card in job_cards[:5]:  # Limit to 5 jobs
+                try:
+                    title_elem = card.find('h3', class_='base-search-card__title')
+                    company_elem = card.find('h4', class_='base-search-card__subtitle')
+                    location_elem = card.find('span', class_='job-search-card__location')
+                    
+                    if title_elem and company_elem:
+                        job = {
+                            "id": self.job_id_counter,
+                            "category": "off-campus",
+                            "categoryLabel": "Off-Campus",
+                            "title": title_elem.get_text(strip=True),
+                            "company": company_elem.get_text(strip=True),
+                            "badge": company_elem.get_text(strip=True)[:2].upper(),
+                            "location": location_elem.get_text(strip=True) if location_elem else "India",
+                            "eligibility": "Check job details",
+                            "Last Date to Apply": "Apply ASAP",
+                            "description": f"Opportunity at {company_elem.get_text(strip=True)}.",
+                            "note": "Entry-level • Full-time",
+                            "applyUrl": url,
+                            "active": True
+                        }
+                        
+                        self.jobs.append(job)
+                        self.job_id_counter += 1
+                        print(f"  ✓ Added: {job['title']} at {job['company']}")
+                        
+                except Exception as e:
+                    print(f"  ✗ Error extracting job: {e}")
+                    continue
+                    
+        except Exception as e:
+            print(f"Error scraping LinkedIn: {e}")
+        finally:
+            driver.quit()
+    
     def run(self):
         """Main scraping workflow"""
         print("=" * 60)
@@ -214,7 +318,9 @@ class JobScraper:
                 continue
             
             try:
-                if source['name'] == 'Naukri':
+                if source['name'] == 'LinkedIn':
+                    self.scrape_linkedin(source['url'])
+                elif source['name'] == 'Naukri':
                     self.scrape_naukri(source['url'])
                 elif source['name'] == 'Indeed':
                     self.scrape_indeed(source['url'])
