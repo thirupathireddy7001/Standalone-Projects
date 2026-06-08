@@ -526,8 +526,25 @@ categoryLinks.forEach(link => {
   });
 });
 
-// Embedded jobs data to avoid CORS issues when opening HTML directly
-allJobs = [
+// Load jobs from external JSON file or use embedded fallback
+async function loadJobs() {
+  try {
+    const response = await fetch('jobs.json');
+    if (response.ok) {
+      const jobs = await response.json();
+      console.log(`✓ Loaded ${jobs.length} jobs from jobs.json`);
+      return jobs;
+    }
+  } catch (error) {
+    console.warn('Could not load jobs.json, using embedded data:', error);
+  }
+  
+  // Fallback to embedded data if jobs.json not found
+  return embeddedJobs;
+}
+
+// Embedded jobs data as fallback
+const embeddedJobs = [
   {
     "id": 1,
     "category": "off-campus",
@@ -706,8 +723,15 @@ allJobs = [
   }
 ];
 
-// Render jobs immediatelytk
-renderJobs(activeFilter);
+// Initialize: Load and render jobs
+loadJobs().then(jobs => {
+  allJobs = jobs;
+  renderJobs(activeFilter);
+}).catch(error => {
+  console.error('Error loading jobs:', error);
+  allJobs = embeddedJobs;
+  renderJobs(activeFilter);
+});
 </script>
 </body>
 </html>
