@@ -95,22 +95,6 @@
     "active": true
   },
   {
-    "id": 12,
-    "category": "off-campus",
-    "categoryLabel": "Off-Campus",
-    "title": "Software Development Engineer - TEST JOB",
-    "company": "Amazon India",
-    "badge": "AM",
-    "CTC": "₹15-20 LPA",
-    "location": "Hyderabad / Bengaluru",
-    "Last Date to Apply": "20 June 2026 11:59 PM",
-    "eligibility": "B.Tech/B.E in CS/IT (2024/2025/2026 batch) • Min 60% • No backlogs",
-    "description": "Join Amazon as an SDE to work on cutting-edge technologies, building scalable systems that impact millions of customers worldwide. This is a TEST job added manually to demonstrate the manual job addition feature.",
-    "note": "Entry-level • Full-time • Manually Added",
-    "applyUrl": "https://www.amazon.jobs/en/search",
-    "active": true
-  },
-  {
     "id": 1,
     "category": "off-campus",
     "categoryLabel": "Off-Campus",
