@@ -77,12 +77,26 @@ class JobScraper:
             
             print(f"Found {len(job_cards)} job cards on Naukri")
             
-            for card in job_cards[:5]:  # Limit to 5 jobs for demo
+            for card in job_cards[:15]:  # Increased to 15 jobs
                 try:
                     title_elem = card.find('a', class_='title')
                     company_elem = card.find('a', class_='subTitle')
+                    location_elem = card.find('li', class_='location')
+                    experience_elem = card.find('li', class_='experience')
+                    desc_elem = card.find('div', class_='job-description')
                     
                     if title_elem and company_elem:
+                        # Extract location
+                        location = location_elem.text.strip() if location_elem else "India"
+                        
+                        # Extract experience/eligibility
+                        eligibility = experience_elem.text.strip() if experience_elem else "Check job details"
+                        
+                        # Extract description
+                        description = desc_elem.text.strip() if desc_elem else f"Opportunity at {company_elem.text.strip()}."
+                        if len(description) > 200:
+                            description = description[:197] + "..."
+                        
                         job = {
                             "id": self.job_id_counter,
                             "category": "off-campus",
@@ -90,10 +104,10 @@ class JobScraper:
                             "title": title_elem.text.strip(),
                             "company": company_elem.text.strip(),
                             "badge": company_elem.text.strip()[:2].upper(),
-                            "location": "India",
-                            "eligibility": "Check job details",
+                            "location": location,
+                            "eligibility": eligibility,
                             "Last Date to Apply": "Apply ASAP",
-                            "description": f"Opportunity at {company_elem.text.strip()}.",
+                            "description": description,
                             "note": "Entry-level • Full-time",
                             "applyUrl": url,
                             "active": True
@@ -101,10 +115,10 @@ class JobScraper:
                         
                         self.jobs.append(job)
                         self.job_id_counter += 1
-                        print(f"  ✓ Added: {job['title']} at {job['company']}")
+                        print(f"  [+] Added: {job['title']} at {job['company']}")
                         
                 except Exception as e:
-                    print(f"  ✗ Error: {e}")
+                    print(f"  [!] Error: {e}")
                     continue
                     
         except Exception as e:
@@ -151,7 +165,7 @@ class JobScraper:
                 print(f"Company elements found: {[bool(c) for c in company_options]}")
                 print("--- END DEBUG ---\n")
             
-            for card in job_cards[:5]:  # Limit to 5 jobs for demo
+            for card in job_cards[:15]:  # Increased to 15 jobs
                 try:
                     # Try multiple selector patterns for title
                     title_elem = (card.find('h2', class_='jobTitle') or
@@ -166,6 +180,15 @@ class JobScraper:
                     # Extract location if available
                     location_elem = (card.find('div', class_='companyLocation') or
                                     card.find('div', {'data-testid': 'text-location'}))
+                    
+                    # Extract job snippet/description
+                    snippet_elem = (card.find('div', class_='job-snippet') or
+                                   card.find('div', {'data-testid': 'job-snippet'}) or
+                                   card.find('div', class_='jobCardShelfContainer'))
+                    
+                    # Extract salary if available
+                    salary_elem = (card.find('div', class_='salary-snippet') or
+                                  card.find('span', class_='salary-snippet-container'))
                     
                     # Get title text
                     if title_elem:
@@ -182,6 +205,14 @@ class JobScraper:
                     # Get location text
                     location_text = location_elem.get_text(strip=True) if location_elem else "India"
                     
+                    # Get description/snippet
+                    description = snippet_elem.get_text(strip=True) if snippet_elem else f"Opportunity at {company_text}."
+                    if len(description) > 200:
+                        description = description[:197] + "..."
+                    
+                    # Get salary/CTC if available
+                    salary_text = salary_elem.get_text(strip=True) if salary_elem else None
+                    
                     if title_text and company_text:
                         job = {
                             "id": self.job_id_counter,
@@ -193,20 +224,24 @@ class JobScraper:
                             "location": location_text,
                             "eligibility": "Check job details",
                             "Last Date to Apply": "Apply ASAP",
-                            "description": f"Opportunity at {company_text}.",
+                            "description": description,
                             "note": "Entry-level • Full-time",
                             "applyUrl": url,
                             "active": True
                         }
                         
+                        # Add CTC field if salary is found
+                        if salary_text:
+                            job["CTC"] = salary_text
+                        
                         self.jobs.append(job)
                         self.job_id_counter += 1
-                        print(f"  ✓ Added: {job['title']} at {job['company']}")
+                        print(f"  [+] Added: {job['title']} at {job['company']}")
                     else:
-                        print(f"  ✗ Skipped: Missing title or company (title={bool(title_text)}, company={bool(company_text)})")
+                        print(f"  [!] Skipped: Missing title or company (title={bool(title_text)}, company={bool(company_text)})")
                         
                 except Exception as e:
-                    print(f"  ✗ Error extracting job: {e}")
+                    print(f"  [!] Error extracting job: {e}")
                     continue
                     
         except Exception as e:
@@ -234,21 +269,44 @@ class JobScraper:
             return []
     
     def save_jobs(self):
-        """Save scraped jobs to jobs.json"""
+        """
+        Save scraped jobs to jobs.json
+        
+        Strategy:
+        - Keep ALL jobs (manual or scraped) that have specific dates (active dates)
+        - Replace ONLY jobs with generic dates like "Apply ASAP", "Rolling", "Open now"
+        - This ensures manually added jobs with dates are preserved
+        - And auto-scraped jobs are refreshed on each run
+        """
         existing_jobs = self.load_existing_jobs()
         
-        # Keep manual jobs (those with specific dates)
-        manual_jobs = [job for job in existing_jobs 
-                      if job.get('Last Date to Apply', '').lower() not in ['apply asap', 'rolling – apply asap', 'open now']]
+        # Define generic date patterns that indicate auto-scraped jobs
+        generic_date_patterns = [
+            'apply asap',
+            'rolling',
+            'open now',
+            'apply soon',
+            'seats fill quickly'
+        ]
         
-        all_jobs = manual_jobs + self.jobs
+        # Keep jobs with specific dates (these have active deadlines)
+        # These could be manually added OR previously scraped jobs with real dates
+        jobs_with_dates = [
+            job for job in existing_jobs
+            if not any(pattern in job.get('Last Date to Apply', '').lower()
+                      for pattern in generic_date_patterns)
+        ]
+        
+        # Combine: preserved jobs with dates + newly scraped jobs
+        all_jobs = jobs_with_dates + self.jobs
         
         try:
             with open(JOBS_FILE, 'w', encoding='utf-8') as f:
                 json.dump(all_jobs, f, indent=2, ensure_ascii=False)
-            print(f"\n✓ Saved {len(all_jobs)} jobs to {JOBS_FILE}")
-            print(f"  - Manual jobs preserved: {len(manual_jobs)}")
-            print(f"  - New scraped jobs: {len(self.jobs)}")
+            print(f"\n[SUCCESS] Saved {len(all_jobs)} jobs to {JOBS_FILE}")
+            print(f"  - Jobs with active dates preserved: {len(jobs_with_dates)}")
+            print(f"  - New scraped jobs added: {len(self.jobs)}")
+            print(f"  - Total jobs in file: {len(all_jobs)}")
         except Exception as e:
             print(f"Error saving jobs: {e}")
     
@@ -269,13 +327,23 @@ class JobScraper:
             
             print(f"Found {len(job_cards)} job cards on LinkedIn")
             
-            for card in job_cards[:5]:  # Limit to 5 jobs
+            for card in job_cards[:15]:  # Increased to 15 jobs
                 try:
                     title_elem = card.find('h3', class_='base-search-card__title')
                     company_elem = card.find('h4', class_='base-search-card__subtitle')
                     location_elem = card.find('span', class_='job-search-card__location')
+                    desc_elem = card.find('p', class_='base-search-card__snippet')
+                    time_elem = card.find('time', class_='job-search-card__listdate')
                     
                     if title_elem and company_elem:
+                        # Extract description
+                        description = desc_elem.get_text(strip=True) if desc_elem else f"Opportunity at {company_elem.get_text(strip=True)}."
+                        if len(description) > 200:
+                            description = description[:197] + "..."
+                        
+                        # Extract posted time
+                        posted_time = time_elem.get('datetime') if time_elem else None
+                        
                         job = {
                             "id": self.job_id_counter,
                             "category": "off-campus",
@@ -286,18 +354,22 @@ class JobScraper:
                             "location": location_elem.get_text(strip=True) if location_elem else "India",
                             "eligibility": "Check job details",
                             "Last Date to Apply": "Apply ASAP",
-                            "description": f"Opportunity at {company_elem.get_text(strip=True)}.",
+                            "description": description,
                             "note": "Entry-level • Full-time",
                             "applyUrl": url,
                             "active": True
                         }
                         
+                        # Add posted date if available
+                        if posted_time:
+                            job["Posted"] = posted_time
+                        
                         self.jobs.append(job)
                         self.job_id_counter += 1
-                        print(f"  ✓ Added: {job['title']} at {job['company']}")
+                        print(f"  [+] Added: {job['title']} at {job['company']}")
                         
                 except Exception as e:
-                    print(f"  ✗ Error extracting job: {e}")
+                    print(f"  [!] Error extracting job: {e}")
                     continue
                     
         except Exception as e:
@@ -333,7 +405,7 @@ class JobScraper:
         
         self.save_jobs()
         
-        print(f"\n✓ Completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"\n[COMPLETE] Finished at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("=" * 60)
 
 if __name__ == "__main__":
