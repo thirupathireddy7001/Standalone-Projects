@@ -197,6 +197,8 @@ background:linear-gradient(135deg,#5f42f2 0%,#7f63ff 40%,#18c6ff 100%);box-shado
         <button class="filter" type="button" data-filter="off-campus">Off-Campus</button>
         <button class="filter" type="button" data-filter="walk-in">Walk-In Drives</button>
         <button class="filter" type="button" data-filter="it-jobs">IT Jobs</button>
+        <button class="filter" type="button" data-filter="fresher">Fresher Jobs</button>
+        <button class="filter" type="button" data-filter="apprenticeship">Apprenticeship</button>
       </div>
 
       <div class="grid" id="jobsGrid"></div>
@@ -313,7 +315,6 @@ TIPS:
 
 const filterButtons=document.querySelectorAll('.filter');
 const jobsGrid=document.getElementById('jobsGrid');
-const jobCount=document.getElementById('jobCount');
 const prevPageBtn=document.getElementById('prevPage');
 const nextPageBtn=document.getElementById('nextPage');
 const pageInfo=document.getElementById('pageInfo');
@@ -424,9 +425,28 @@ function sortJobsByDeadline(jobs) {
   });
 }
 
-function renderJobs(filter='all'){
-  // Filter out expired jobs and apply category filter
-  let visibleJobs=allJobs.filter(job=>job.active && !isJobExpired(job) && (filter==='all'||job.category===filter));
+// Keywords used to detect fresher-friendly jobs
+const FRESHER_KEYWORDS = ['fresher', 'trainee', 'entry-level', 'entry level', 'graduate', 'junior', '0-1 year', '0–1 year', '2025', '2026', 'batch', 'apprentice', 'intern'];
+const APPRENTICESHIP_KEYWORDS = ['apprentice', 'apprenticeship', 'nats', 'stipend'];
+
+function matchesFilter(job, filter) {
+  if (filter === 'all') return true;
+  if (filter === 'fresher') {
+    const haystack = [job.note, job.eligibility, job.description, job.title, job.categoryLabel]
+      .filter(Boolean).join(' ').toLowerCase();
+    return FRESHER_KEYWORDS.some(kw => haystack.includes(kw));
+  }
+  if (filter === 'apprenticeship') {
+    const haystack = [job.note, job.eligibility, job.description, job.title]
+      .filter(Boolean).join(' ').toLowerCase();
+    return APPRENTICESHIP_KEYWORDS.some(kw => haystack.includes(kw));
+  }
+  return job.category === filter;
+}
+
+function renderJobs(filter='all', scroll=false){
+  // Filter out expired jobs and apply category/smart filter
+  let visibleJobs=allJobs.filter(job=>job.active && !isJobExpired(job) && matchesFilter(job, filter));
   
   // Sort jobs by deadline - nearest dates first
   visibleJobs = sortJobsByDeadline(visibleJobs);
@@ -442,10 +462,6 @@ function renderJobs(filter='all'){
   
   jobsGrid.innerHTML=jobsToShow.map(createJobCard).join('');
   
-  if(jobCount){
-    jobCount.textContent=allJobs.filter(job=>job.active).length;
-  }
-  
   // Update pagination controls
   if(totalPages>1){
     prevPageBtn.style.display=currentPage>1?'inline-flex':'none';
@@ -458,24 +474,26 @@ function renderJobs(filter='all'){
     pageInfo.style.display='none';
   }
   
-  // Scroll to jobs section
-  document.getElementById('jobs').scrollIntoView({behavior:'smooth',block:'start'});
+  // Only scroll when triggered by user interaction, not on initial load
+  if(scroll){
+    document.getElementById('jobs').scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 
 // Pagination button handlers
 prevPageBtn.addEventListener('click',()=>{
   if(currentPage>1){
     currentPage--;
-    renderJobs(activeFilter);
+    renderJobs(activeFilter, true);
   }
 });
 
 nextPageBtn.addEventListener('click',()=>{
-  const visibleJobs=allJobs.filter(job=>job.active && (activeFilter==='all'||job.category===activeFilter));
+  const visibleJobs=allJobs.filter(job=>job.active && !isJobExpired(job) && matchesFilter(job, activeFilter));
   const totalPages=Math.ceil(visibleJobs.length/jobsPerPage);
   if(currentPage<totalPages){
     currentPage++;
-    renderJobs(activeFilter);
+    renderJobs(activeFilter, true);
   }
 });
 
@@ -485,7 +503,7 @@ filterButtons.forEach(button=>{
     currentPage=1; // Reset to first page when changing filter
     filterButtons.forEach(btn=>btn.classList.remove('active'));
     button.classList.add('active');
-    renderJobs(activeFilter);
+    renderJobs(activeFilter, true);
   });
 });
 
@@ -518,11 +536,8 @@ categoryLinks.forEach(link => {
     if (targetButton) {
       targetButton.classList.add('active');
       activeFilter = category;
-      renderJobs(activeFilter);
+      renderJobs(activeFilter, true);
     }
-    
-    // Scroll to jobs section
-    document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
   });
 });
 
@@ -540,10 +555,11 @@ async function loadJobs() {
   }
   
   // Fallback to embedded data if jobs.json not found
+  console.warn('Using embedded fallback data — jobs.json not accessible (file:// protocol?)');
   return embeddedJobs;
 }
 
-// Embedded jobs data as fallback
+// Embedded jobs data as fallback (mirrors jobs.json — update both when adding jobs)
 const embeddedJobs = [
   {
     "id": 1,
@@ -551,10 +567,10 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Graduate Engineer Trainee",
     "company": "Volvo Group India",
-    "badge": "IN",
+    "badge": "VG",
     "CTC": "Best in the industry",
     "location": "Bengaluru",
-    "Last Date to Apply": "10 June 2026 12:00 AM",
+    "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.E – Mechanical / Production / Metallurgy / Material Science (2025/2026 batch)",
     "description": "National Apprenticeship Training Scheme (NATS) – a 12-month structured apprenticeship where Volvo India trains freshly graduated engineers across its Financial Services functions, providing practical skills development and industry exposure.",
     "note": "Entry-level • Full-time • NATS Apprenticeship",
@@ -567,10 +583,10 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Graduate Apprentice Trainee (10 Roles)",
     "company": "Cisco India",
-    "badge": "IN",
+    "badge": "CI",
     "CTC": "Stipend-based (NATS)",
     "location": "Bengaluru",
-    "Last Date to Apply": "Apply ASAP – seats fill quickly",
+    "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.Tech / B.E / BCA / BBA / B.Com (2025/2026 batch) – NATS registration required",
     "description": "Cisco's 12-month Graduate Apprentice Program offers 10 roles including Software Engineer Trainee, Hardware Engineer Trainee, Finance Analyst Trainee, Sales Operations Analyst, Marketing Trainee, and Talent Acquisition Coordinator. Starting September 2026. Hybrid and onsite options.",
     "note": "Entry-level • Apprenticeship • 12 months",
@@ -583,12 +599,12 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Associate System Engineer",
     "company": "IBM Consulting",
-    "badge": "IN",
+    "badge": "IB",
     "CTC": "₹4.0 – 4.8 LPA (expected)",
     "location": "Pan India – Bengaluru, Hyderabad, Pune, Chennai, Noida, Gurugram + more",
-    "Last Date to Apply": "Apply ASAP – closing soon",
+    "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.E / B.Tech – CSE / IT and related branches (2024 & 2025 batch only) · Min 60% / 6 CGPA · No active backlogs",
-    "description": "IBM Consulting is hiring Associate System Engineers for Java/JEE enterprise application development, DevOps, hybrid cloud, and system integration. Hybrid work model across IBM Client Innovation Centers in India. Strong programming skills in Java, Python, or C++ preferred.",
+    "description": "IBM Consulting is hiring Associate System Engineers for Java/JEE enterprise application development, DevOps, hybrid cloud, and system integration. Hybrid work model across IBM Client Innovation Centers in India.",
     "note": "Entry-level • Full-time • Hybrid",
     "applyUrl": "https://www.ibm.com/careers",
     "active": true
@@ -599,12 +615,12 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Associate / Trainee – Software Developer",
     "company": "Wipro",
-    "badge": "IN",
+    "badge": "WI",
     "CTC": "₹5 – 8 LPA",
     "location": "Bengaluru, Chennai, Pune, Hyderabad, Noida, Gurugram",
     "Last Date to Apply": "Rolling – Apply ASAP",
     "eligibility": "B.E / B.Tech / M.E / M.Tech / BCA / MCA / B.Sc / B.Com (2022–2026 batch)",
-    "description": "Wipro is running multiple off-campus drives for Associate and Trainee Software Developer roles across India. Open to a wide range of degree types and batches. Walk-in drives also active from 1–22 June 2026 at multiple locations.",
+    "description": "Wipro is running multiple off-campus drives for Associate and Trainee Software Developer roles across India. Open to a wide range of degree types and batches.",
     "note": "Entry-level • Full-time",
     "applyUrl": "https://careers.wipro.com",
     "active": true
@@ -615,10 +631,10 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Senior Process Executive",
     "company": "Infosys",
-    "badge": "IN",
+    "badge": "IF",
     "CTC": "As per industry standard",
     "location": "Pune, Mangalore, Bengaluru",
-    "Last Date to Apply": "Open now",
+    "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.Com / BBA / B.Sc / BA / MA / M.Com / MBA (2023–2026 batch) · 0–1 year experience",
     "description": "Infosys is hiring freshers for entry-level Senior Process Executive roles across operations and business services. Ideal for non-engineering graduates looking to start their career at one of India's largest IT companies.",
     "note": "Entry-level • Full-time",
@@ -631,7 +647,7 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Graduate Apprentice Trainee",
     "company": "Syniverse Technologies",
-    "badge": "IN",
+    "badge": "SY",
     "CTC": "Stipend-based (NATS)",
     "location": "Bengaluru",
     "Last Date to Apply": "Apply ASAP",
@@ -647,7 +663,7 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Graduate Engineer Trainee",
     "company": "Emerson",
-    "badge": "IN",
+    "badge": "EM",
     "CTC": "₹4 – 7 LPA (Best in industry)",
     "location": "Pune (Hybrid)",
     "Last Date to Apply": "Apply ASAP",
@@ -663,12 +679,12 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Graduate Engineer Trainee (GET)",
     "company": "L&T Technology Services (LTTS)",
-    "badge": "IN",
+    "badge": "LT",
     "CTC": "₹4,00,100 per annum + ₹25,000/month stipend during training",
     "location": "Bengaluru, Chennai, Hyderabad, Pune, Mumbai, Mysore, Vadodara, Delhi",
     "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.E / B.Tech – Mechanical / Electrical / Metallurgical / Mechatronics (2026 batch) · Min 60% / 6.75 CGPA in 10th, 12th & graduation · No active backlogs",
-    "description": "LTTS is hiring Graduate Engineer Trainees for a 15-month structured training program – 3 months classroom followed by on-the-job training. Work on real engineering projects in EV, Embedded Systems, and Industrial IoT. Bond of ₹2 lakhs for 2 years 9 months applies.",
+    "description": "LTTS is hiring Graduate Engineer Trainees for a 15-month structured training program – 3 months classroom followed by on-the-job training. Work on real engineering projects in EV, Embedded Systems, and Industrial IoT.",
     "note": "Entry-level • Full-time • 15-month training program",
     "applyUrl": "https://www.ltts.com/careers",
     "active": true
@@ -678,10 +694,10 @@ const embeddedJobs = [
     "category": "off-campus",
     "categoryLabel": "Off-Campus",
     "title": "Digital Workplace Practice (Service Desk)",
-    "company": "Cognizant ",
-    "badge": "IN",
+    "company": "Cognizant",
+    "badge": "CG",
     "location": "Across India",
-    "Last Date to Apply": "15 June 2026 12:00 AM",
+    "Last Date to Apply": "Apply ASAP",
     "eligibility": "B.Com, BCA, BSc, BA, BBA, B.Voc, BMS, 2025/2026",
     "description": "This is a Service Desk role. You will be responsible for providing technical support to our clients, including troubleshooting and resolving IT issues and ensuring the smooth functioning of their computer systems and IT services.",
     "note": "Entry-level • Full-time",
@@ -694,32 +710,15 @@ const embeddedJobs = [
     "categoryLabel": "Off-Campus",
     "title": "Junior Management Trainee",
     "company": "HEXAWARE",
+    "badge": "HX",
     "CTC": "₹5 LPA",
-    "Last Date to Apply": "31 July 2026 11:59 PM",
-    "badge": "DE",
     "location": "Siruseri, Chennai or any other Hexaware office location across India",
-    "eligibility": " bachelor’s degree with minimum 60% / 6.00 CGPA ,2026 batch",
+    "Last Date to Apply": "31 July 2026 11:59 PM",
+    "eligibility": "Bachelor's degree with minimum 60% / 6.00 CGPA, 2026 batch",
     "description": "Hexaware Technologies is seeking motivated, detail-oriented MBA students to join our team for Junior Management Trainee 2026.",
     "note": "Freshers welcome",
     "applyUrl": "https://app.joinsuperset.com/join/#/signup/student/jobprofiles/aa8dda8f-2e39-4377-bf46-a255f7f941e3",
     "active": true
-  },
-  {
-    "id": 11,
-    "category": "off-campus",
-    "categoryLabel": "Off-Campus",
-    "title": "Graduate Engineer Trainee",
-    "company": "Volvo ",
-    "badge": "IN",
-	"CTC":"Best in the industry",
-    "location": "Bengalore",
-    "Last Date to Apply": "10 June 2026 12:00 AM",
-    "eligibility": "Bachelor of Engineering (Mechanical / Production / Metallurgy / Material Science)  2025/2026",
-    "description": "This is a National Apprenticeship Training Scheme, is a program where Volvo India engages freshly graduated individuals for year-long apprenticeships, providing them with practical training and skills development opportunities within the company’s various functions under Financial Services. it's a way for Volvo to train future workforce members through a structured apprenticeship program",
-    "note": "Entry-level • Full-time",
-    "applyUrl": "https://jobs.volvogroup.com/job/Bangalore-Graduate-Apprentice-Trainee-560058/1342134655/",
-    "active": true
-  
   }
 ];
 
